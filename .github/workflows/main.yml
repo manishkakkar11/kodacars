@@ -49,10 +49,6 @@ jobs:
       # This creates optimized files in the 'dist' folder
       - name: Build website
         run: npm run build
-        env:
-          # Add your environment variables here if needed
-          # GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          # Add any other API keys or environment variables your app needs
       
       # Step 6: Upload the built files so the deploy job can access them
       - name: Upload build artifacts
