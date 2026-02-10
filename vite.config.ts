@@ -4,7 +4,11 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
-    return {
+    return {     
+      // Base path configuration for GitHub Pages
+      // Use '/' if you're using a custom domain
+      // Use '/repository-name/' if using GitHub's default URL (username.github.io/repository-name)
+      base: '/kodacars-website/',
       server: {
         port: 3000,
         host: '0.0.0.0',
