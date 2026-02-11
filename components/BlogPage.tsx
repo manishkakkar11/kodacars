@@ -1,11 +1,17 @@
 import React, { useState, useMemo } from 'react';
-import { Search, Calendar, Clock, ArrowRight, Tag } from 'lucide-react';
+import { Search, Calendar, Clock, ArrowRight, Tag, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { blogPosts, getAllCategories, getAllTags } from '../data/blogData';
 
 const BlogPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  
+  // Newsletter form state
+  const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const categories = ['All', ...getAllCategories()];
   const allTags = getAllTags();
@@ -30,7 +36,62 @@ const BlogPage: React.FC = () => {
   };
 
   const handleBlogClick = (slug: string) => {
-    window.open(`#blog/${slug}`, '_blank');
+    console.log('Navigating to blog post with slug:', slug);
+    console.log('Setting hash to:', `#blog/${slug}`);
+    window.location.hash = `#blog/${slug}`;
+  };
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validate email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+      setSubmitStatus('error');
+      setErrorMessage('Please enter a valid email address');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+    setErrorMessage('');
+
+    try {
+      // Create form data
+      const formData = new FormData();
+      formData.append('access_key', '5d728ed2-e7fa-4fa4-99f4-ee9aa09bdb5a'); // Your Web3Forms key
+      formData.append('subject', 'New Newsletter Subscription - KodaCars Blog');
+      formData.append('from_name', 'KodaCars Blog Newsletter');
+      formData.append('email', email);
+      formData.append('to_email', 'ankitj2@damcogroup.com');
+      formData.append('message', `New newsletter subscription from: ${email}\n\nSource: Blog Page\nTimestamp: ${new Date().toLocaleString()}`);
+
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setSubmitStatus('success');
+        setEmail('');
+        
+        // Reset success message after 5 seconds
+        setTimeout(() => {
+          setSubmitStatus('idle');
+        }, 5000);
+      } else {
+        setSubmitStatus('error');
+        setErrorMessage('Subscription failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Newsletter submission error:', error);
+      setSubmitStatus('error');
+      setErrorMessage('Network error. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -52,7 +113,7 @@ const BlogPage: React.FC = () => {
 
       {/* Search and Filters */}
       <div className="border-b border-gray-200 bg-white sticky top-16 z-30">
-        <div className="max-w-7xl mx-auto px-4 lg:px-16 py-6">
+        <div className="max-w-7xl mx-auto px-4 lg:px-16 py-4">
           <div className="mb-3">
             <div className="relative w-full">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
@@ -61,7 +122,7 @@ const BlogPage: React.FC = () => {
                 placeholder="Search articles..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-2 border-2 border-gray-200 focus:border-koda-blue outline-none text-base font-medium"
+                className="w-full pl-12 pr-4 py-2.5 border-2 border-gray-200 focus:border-koda-blue outline-none text-base font-medium"
               />
             </div>
           </div>
@@ -74,7 +135,7 @@ const BlogPage: React.FC = () => {
                   setSelectedCategory(category);
                   setSelectedTag(null);
                 }}
-                className={`px-6 py-2 font-bold text-sm uppercase tracking-widest transition-all ${
+                className={`px-6 py-3 font-bold text-sm uppercase tracking-widest transition-all ${
                   selectedCategory === category ? 'bg-koda-blue text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
@@ -83,7 +144,7 @@ const BlogPage: React.FC = () => {
             ))}
           </div>
 
-          <div className="text-sm font-bold text-gray-500 uppercase tracking-widest">
+          <div className="text-xs font-bold text-gray-500 uppercase tracking-widest">
             {filteredBlogs.length} {filteredBlogs.length === 1 ? 'Article' : 'Articles'}
           </div>
         </div>
@@ -175,12 +236,70 @@ const BlogPage: React.FC = () => {
           <p className="text-xl text-gray-700 mb-10 font-medium leading-relaxed">
             Get the latest industry insights and revenue optimization strategies delivered to your inbox.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto">
-            <input type="email" placeholder="Enter your email" className="flex-1 px-6 py-4 border-2 border-gray-200 focus:border-koda-blue outline-none text-lg font-medium" />
-            <button className="bg-koda-blue text-white px-8 py-4 font-bold text-lg hover:bg-koda-darkblue transition-colors">
-              Subscribe
-            </button>
-          </div>
+
+          {submitStatus === 'success' ? (
+            /* Success State */
+            <div className="max-w-2xl mx-auto bg-green-50 border-2 border-green-500 p-8 rounded">
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <CheckCircle size={32} className="text-green-600" />
+                <h3 className="text-2xl font-bold text-green-900">Subscribed Successfully!</h3>
+              </div>
+              <p className="text-green-800 text-lg font-medium mb-4">
+                Thank you for subscribing to our newsletter. You'll receive the latest parking industry insights directly to your inbox.
+              </p>
+              <button
+                onClick={() => {
+                  setSubmitStatus('idle');
+                  setEmail('');
+                }}
+                className="text-green-700 font-bold hover:text-green-900 transition-colors"
+              >
+                Subscribe another email →
+              </button>
+            </div>
+          ) : (
+            /* Form State */
+            <form onSubmit={handleNewsletterSubmit} className="max-w-2xl mx-auto">
+              {submitStatus === 'error' && (
+                <div className="mb-6 bg-red-50 border-2 border-red-500 p-4 rounded flex items-center gap-3">
+                  <AlertCircle size={24} className="text-red-600 flex-shrink-0" />
+                  <p className="text-red-800 font-medium text-left">
+                    {errorMessage || 'Something went wrong. Please try again.'}
+                  </p>
+                </div>
+              )}
+              
+              <div className="flex flex-col sm:flex-row gap-4">
+                <input
+                  type="email"
+                  placeholder="Enter your email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={isSubmitting}
+                  required
+                  className="flex-1 px-6 py-4 border-2 border-gray-200 focus:border-koda-blue outline-none text-lg font-medium disabled:bg-gray-100 disabled:cursor-not-allowed"
+                />
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="bg-koda-blue text-white px-8 py-4 font-bold text-lg hover:bg-koda-darkblue transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2 whitespace-nowrap"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 size={20} className="animate-spin" />
+                      Subscribing...
+                    </>
+                  ) : (
+                    'Subscribe'
+                  )}
+                </button>
+              </div>
+              
+              <p className="text-sm text-gray-500 mt-4 font-medium">
+                Join 2,500+ parking operators receiving monthly insights. Unsubscribe anytime.
+              </p>
+            </form>
+          )}
         </div>
       </div>
     </div>

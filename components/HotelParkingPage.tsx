@@ -38,7 +38,7 @@ const HotelParkingPage: React.FC = () => {
       </div>
 
       {/* Hero Section */}
-      <section className="py-20 lg:py-32 border-b border-gray-100 bg-white">
+      <section className="py-20 border-b border-gray-100 bg-white">
         <div className="max-w-7xl mx-auto px-4 lg:px-16">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
