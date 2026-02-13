@@ -3,20 +3,20 @@ name: Deploy to GoDaddy via FTP
 on:
   push:
     branches:
-      - main  # Deploy when code is pushed to main branch
+      - main  # Deploy only when you push to main branch
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
+    - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Set up Node.js
+    - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '20'  # Use Node.js 20
+        node-version: '20'
 
     - name: Install dependencies
       run: npm install
@@ -24,12 +24,12 @@ jobs:
     - name: Build TypeScript
       run: npx tsc
 
-    - name: Deploy via FTP
-      uses: SamKirkland/FTP-Deploy-Action@4.6.0
+    - name: Deploy to GoDaddy via FTP
+      uses: SamKirkland/FTP-Deploy-Action@v4
       with:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./dist  # Folder to deploy (compiled JS)
-        server-dir: /public_html/kodacars  # Path on GoDaddy server
+        local-dir: ./dist   # Your compiled JS output
+        server-dir: /public_html/  # Adjust if needed
         git-ftp-args: --insecure
