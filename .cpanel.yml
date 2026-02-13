@@ -1,0 +1,7 @@
+---
+deployment:
+  tasks:
+    - export PATH=$HOME/.nvm/versions/node/v18.16.0/bin:$PATH
+    - npm install
+    - npm run build
+    - cp -R dist/* /home/ba7qj4vjr93n/public_html/kodacars/
