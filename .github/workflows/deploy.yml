@@ -1,24 +1,40 @@
-name: Deploy to GoDaddy Shared Hosting
+name: Build and Deploy to GoDaddy (FTP)
 
 on:
   push:
     branches:
-      - main
+      - main   # change if using different branch
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Sync files via SFTP
-        uses: SamKirkland/FTP-Deploy-Action@4.5.0
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          server: ${{ secrets.FTP_SERVER }}        # your GoDaddy server
-          username: ${{ secrets.FTP_USERNAME }}  # SFTP username
-          password: ${{ secrets.FTP_PASSWORD }}  # SFTP password
-          protocol: sftp
-          port: 21
-          local-dir: ./dist                 # folder to deploy
-          server-dir: /public_html/      # GoDaddy hosting directory
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Debug FTP Connection
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lftp
+      
+          lftp -e "
+          set ftp:passive-mode true;
+          set ftp:ssl-allow no;
+          set net:timeout 20;
+          set net:max-retries 2;
+          open -u '${{ secrets.FTP_USERNAME }}','${{ secrets.FTP_PASSWORD }}' ftp://${{ secrets.FTP_SERVER }};
+          ls;
+          quit;
+          "
