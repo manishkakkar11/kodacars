@@ -33,3 +33,4 @@ jobs:
           protocol: ftp
           local-dir: ./dist/
           server-dir: /public_html/
+          git-ftp-args: --insecure --passive
