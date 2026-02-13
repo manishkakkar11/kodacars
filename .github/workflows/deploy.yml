@@ -23,7 +23,7 @@ jobs:
           npm install
           npm run build
 
-      - name: Copy files to GoDaddy via SSH
+      - name: Deploy to GoDaddy via SSH
         uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.CPANEL_SSH_HOST }}
