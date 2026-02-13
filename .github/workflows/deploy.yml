@@ -24,16 +24,18 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftp
-          port: 21
-          local-dir: ./dist/
-          server-dir: /public_html/
-          dangerous-clean-slate: false
-          log-level: verbose
+      - name: Deploy using lftp (GoDaddy Compatible)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lftp
+
+          lftp -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ftp://${{ secrets.FTP_SERVER }} <<EOF
+          set ftp:passive-mode true
+          set net:timeout 60
+          set net:max-retries 2
+          set ftp:ssl-allow no
+          mirror -R ./dist /public_html --verbose --ignore-time --parallel=2
+          quit
+          EOF
+
 
