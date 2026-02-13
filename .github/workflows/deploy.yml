@@ -30,7 +30,11 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftp
-          local-dir: ./dist/
-          server-dir: /public_html/
-          git-ftp-args: --insecure --passive
+          run: |
+          lftp -u $FTP_USERNAME,$FTP_PASSWORD $FTP_SERVER <<EOF
+          set ftp:passive-mode on
+          set net:timeout 300
+          set net:max-retries 3
+          mirror -R ./dist /public_html/ --delete --verbose
+          quit
+          EOF
