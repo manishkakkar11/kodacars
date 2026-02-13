@@ -1,4 +1,4 @@
-name: Deploy TypeScript Node.js App to GoDaddy
+name: Deploy to GoDaddy via SSH
 
 on:
   push:
@@ -6,37 +6,29 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Compile TypeScript
-        run: npx tsc
-
-      - name: Install lftp
-        run: sudo apt-get update && sudo apt-get install -y lftp
-
-      - name: Deploy to GoDaddy via lftp
-        env:
-          FTP_SERVER: ${{ secrets.FTP_SERVER }}
-          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
-          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+      - name: Install dependencies and build
         run: |
-          lftp -u $FTP_USERNAME,$FTP_PASSWORD $FTP_SERVER <<EOF
-          set ftp:passive-mode on
-          set net:timeout 300
-          set net:max-retries 3
-          mirror -R ./dist /public_html/ --delete --verbose
-          quit
-          EOF
+          npm install
+          npm run build
+
+      - name: Copy files to GoDaddy via SSH
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.CPANEL_SSH_HOST }}
+          username: ${{ secrets.CPANEL_SSH_USERNAME }}
+          key: ${{ secrets.CPANEL_SSH_KEY }}
+          port: 22
+          source: "dist/**"
+          target: "/home/${{ secrets.CPANEL_SSH_USERNAME }}/public_html"
