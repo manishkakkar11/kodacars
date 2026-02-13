@@ -1,4 +1,4 @@
-name: Deploy Vite React App to GoDaddy
+name: Deploy TypeScript Node.js App to GoDaddy
 
 on:
   push:
@@ -10,27 +10,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Use Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: '20'
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build Vite app
-        run: npm run build
+      - name: Compile TypeScript
+        run: npx tsc
 
-      - name: Deploy to GoDaddy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          run: |
+      - name: Deploy to GoDaddy via lftp
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
           lftp -u $FTP_USERNAME,$FTP_PASSWORD $FTP_SERVER <<EOF
           set ftp:passive-mode on
           set net:timeout 300
