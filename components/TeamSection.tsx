@@ -24,77 +24,77 @@ const TeamSection: React.FC = () => {
   }, [selectedMember]);
 
   const members: TeamMember[] = [
-    { 
-      name: "Brahm Om Sharma", 
-      role: "CEO", 
+    {
+      name: "Brahm Om Sharma",
+      role: "CEO",
       image: "https://lh3.googleusercontent.com/d/18tnS1U8e70RS2HkUBQpiX-185-j0xdtd",
       bio: "Brahm is an experienced CIO in InsurTech and FinTech with an MS in Production Engineering, who spent the last 30 years delivering numerous multi-million-dollar technology projects in high-pressure environments at Aon, Marsh, TCS, Ryder, & others."
     },
-    { 
-      name: "Rohan Sharma", 
-      role: "Co-Founder", 
+    {
+      name: "Rohan Sharma",
+      role: "Co-Founder",
       image: "https://lh3.googleusercontent.com/d/1XAhSo8sNUU7AkAkSyClct-eQnVX1Yx2n",
       bio: "Rohan is an Economics & Management graduate from the University of Oxford who brings a valuable network and key skills in finance, marketing, and applied mathematics."
     },
-    { 
-      name: "Sunil Gupta", 
-      role: "CTO", 
-      image: "https://lh3.googleusercontent.com/d/1VOxkdgejJNBG-A4usAd8uFwnB7j0vWfJ",
-      bio: "Sunil Kumar Gupta is the CTO at KodaCars, driving technology strategy, product architecture, and digital innovation. With 17+ years in enterprise software, cloud-native design, and AI platforms, he brings deep expertise across automotive, mobility, and infrastructure. He leads engineering teams, steers platform optimization, and aligns tech initiatives with business goals."
-    },
-    { 
-      name: "Ravi Vaidya", 
-      role: "Advisor & Legal", 
-      image: "https://lh3.googleusercontent.com/d/1gzClQoyqKF2fvw8mREYuGyHhRAkWtk3E",
-      bio: "Ravi Vaidya, MBA, JD, is a seasoned business advisor with over 40 years of experience helping startups and early-stage ventures navigate growth and achieve success. With a global track record across numerous industries, Ravi has spent the last decade intensely focused on advising founders during critical launch phases. He provides hands-on strategic guidance in areas like fundraising, M&A, and executive mentoring, consistently helping companies refine their vision and prepare for long-term growth."
-    },
-    { 
-      name: "Will Pagan", 
-      role: "Advisor & CMO", 
+    {
+      name: "Will Pagan",
+      role: "Advisor & CMO",
       image: "https://lh3.googleusercontent.com/d/1-OsqspaRWu0VIC7JoK5N2YK2entvspLJ",
       bio: "Will Pagan brings over 20 years of senior management experience to the KodaCars Advisory Board, with a focus on business growth, product optimization, and AI-driven fraud mitigation—helping prevent $3.7B in auto and financial services fraud. He has deep expertise in building data-rich platforms and leading regulated, high-volume insurance programs. Will has also served as a lobbyist, authoring bills and advocating for mobile insurance solutions that protect both carriers and consumers. Previously, he held executive roles at CARCO Group, InsPro Technologies, Aon Affinity, AIG, and First Data."
     },
-    { 
-      name: "Mayrelis Caldera", 
-      role: "Customer Success Leader", 
-      image: "https://lh3.googleusercontent.com/d/1KsXZ4EzJ-IpFY-Kn-ayMgRRTCdHlPGNU",
-      bio: "Mayrelis is an expert in customer relations and enterprise platform adoption. She leads the Customer Success department at KodaCars, focusing on building long-term partnerships and ensuring that operators achieve peak performance and ROI using our AI-driven ecosystem. Her proactive approach to onboarding and strategic support ensures that every client maximizes their parking asset value."
-    },
-    { 
-      name: "Caslav Savic", 
-      role: "Director of Sales", 
+    {
+      name: "Caslav Savic",
+      role: "Director of Sales",
       image: "https://lh3.googleusercontent.com/d/12JYMHIxab7XQssIzGc9IsJHgknkEBVYZ",
       bio: "Caslav brings over 10 years of experience driving performance-based B2B revenue growth through high-impact partnerships and data-driven lead generation. He focuses on connecting KodaCars with forward-thinking partners and customers, expanding market reach, and driving qualified opportunities."
     },
-    { 
-      name: "Mohit Gupta", 
-      role: "Advisor", 
+    {
+      name: "Mohit Gupta",
+      role: "Advisor",
       image: "https://lh3.googleusercontent.com/d/1TMro23VTBy8t81nBDddSmyN0gCdR-2Hj",
-      bio: "Founder & CEO of Damco Solutions, an entrepreneurial leader with over 30 years of technology experience. Mohit plays a pivotal role in shaping KodaCar’s technology and innovation."
+      bio: "Founder & CEO of Damco Solutions, an entrepreneurial leader with over 30 years of technology experience. Mohit plays a pivotal role in shaping KodaCar's technology and innovation."
     },
-    { 
-      name: "Calvin Johnson", 
-      role: "Advisor", 
-      image: "https://lh3.googleusercontent.com/d/10A4j_Lkx9Znn23cL3i-UvrgZ3d7b6XSN",
-      bio: "Bringing four decades of insurance industry experience, Calvin focuses on driving growth and innovation across multiple product lines, a vital asset to KodaCars."
+    {
+      name: "Mayrelis Caldera",
+      role: "Customer Success Leader",
+      image: "https://lh3.googleusercontent.com/d/1KsXZ4EzJ-IpFY-Kn-ayMgRRTCdHlPGNU",
+      bio: "Mayrelis is an expert in customer relations and enterprise platform adoption. She leads the Customer Success department at KodaCars, focusing on building long-term partnerships and ensuring that operators achieve peak performance and ROI using our AI-driven ecosystem. Her proactive approach to onboarding and strategic support ensures that every client maximizes their parking asset value."
     },
-    { 
-      name: "Andy Bess", 
-      role: "Advisor", 
+    {
+      name: "Andy Bess",
+      role: "Advisor",
       image: "https://lh3.googleusercontent.com/d/18tYxd2cui3d5LzD4dbhG7pxKa4LKmza8",
-      bio: "A seasoned investment banker renowned in the parking and mobility industry. Andy's strategic insights and advisory role are invaluable, guiding KodaCar’s in positioning itself effectively in the mobility space."
+      bio: "A seasoned investment banker renowned in the parking and mobility industry. Andy's strategic insights and advisory role are invaluable, guiding KodaCar's in positioning itself effectively in the mobility space."
     },
-    { 
-      name: "Bob Pichler", 
-      role: "Operations Strategy Leader", 
+    {
+      name: "Richard Piotrowski",
+      role: "Advisor",
+      image: "https://lh3.googleusercontent.com/d/1CTxC-auSxvrZZNLtRSPRj_WP0d9XRHpW",
+      bio: "Richard Piotrowski is an advisory board member at KodaCars, bringing extensive expertise in car lending and parking lot operations. He owns and operates several car-rental and car-parking facilities across Florida, from which he leverages his insights to support KodaCars' strategic initiatives. His contributions include facilitating our initial pilot in Miami and Orlando, co-innovating to streamline our partners' operations, advising on our risk management strategies, and connecting with the broader industry."
+    },
+    {
+      name: "Sunil Gupta",
+      role: "CTO",
+      image: "https://lh3.googleusercontent.com/d/1VOxkdgejJNBG-A4usAd8uFwnB7j0vWfJ",
+      bio: "Sunil Kumar Gupta is the CTO at KodaCars, driving technology strategy, product architecture, and digital innovation. With 17+ years in enterprise software, cloud-native design, and AI platforms, he brings deep expertise across automotive, mobility, and infrastructure. He leads engineering teams, steers platform optimization, and aligns tech initiatives with business goals."
+    },
+    {
+      name: "Bob Pichler",
+      role: "Operations Strategy Leader",
       image: "https://lh3.googleusercontent.com/d/13vG0RvYhEGq1ZrypgGHc7l1Scw-Logdc",
       bio: "Dynamic executive with 20+ years of experience leading strategy and operations across private equity, SMBs, and public organizations. Expert in using data-driven insights to streamline processes, enhance customer experience, and drive scalable growth through cross-functional collaboration."
     },
-    { 
-      name: "Richard Piotrowski", 
-      role: "Advisor", 
-      image: "https://lh3.googleusercontent.com/d/1CTxC-auSxvrZZNLtRSPRj_WP0d9XRHpW",
-      bio: "Richard Piotrowski is an advisory board member at KodaCars, bringing extensive expertise in car lending and parking lot operations. He owns and operates several car-rental and car-parking facilities across Florida, from which he leverages his insights to support KodaCars' strategic initiatives. His contributions include facilitating our initial pilot in Miami and Orlando, co-innovating to streamline our partners' operations, advising on our risk management strategies, and connecting with the broader industry."
+    {
+      name: "Ravi Vaidya",
+      role: "Advisor & Legal",
+      image: "https://lh3.googleusercontent.com/d/1gzClQoyqKF2fvw8mREYuGyHhRAkWtk3E",
+      bio: "Ravi Vaidya, MBA, JD, is a seasoned business advisor with over 40 years of experience helping startups and early-stage ventures navigate growth and achieve success. With a global track record across numerous industries, Ravi has spent the last decade intensely focused on advising founders during critical launch phases. He provides hands-on strategic guidance in areas like fundraising, M&A, and executive mentoring, consistently helping companies refine their vision and prepare for long-term growth."
+    },
+    {
+      name: "Calvin Johnson",
+      role: "Advisor",
+      image: "https://lh3.googleusercontent.com/d/10A4j_Lkx9Znn23cL3i-UvrgZ3d7b6XSN",
+      bio: "Bringing four decades of insurance industry experience, Calvin focuses on driving growth and innovation across multiple product lines, a vital asset to KodaCars."
     }
   ];
 
