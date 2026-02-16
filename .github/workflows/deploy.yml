@@ -31,10 +31,13 @@ jobs:
       
           lftp -e "
           set ftp:passive-mode true;
-          set ftp:ssl-allow no;
+          set ftp:ssl-force true;
+          set ftp:ssl-protect-data true;
+          set ssl:verify-certificate no;
           set net:timeout 20;
           set net:max-retries 2;
-          open -u '${{ secrets.FTP_USERNAME }}','${{ secrets.FTP_PASSWORD }}' ftp://${{ secrets.FTP_SERVER }};
+          open -u '${{ secrets.FTP_USERNAME }}','${{ secrets.FTP_PASSWORD }}' ${{ secrets.FTP_SERVER }};
           ls;
           quit;
           "
+
