@@ -24,20 +24,14 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Debug FTP Connection
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y lftp
-      
-          lftp -e "
-          set ftp:passive-mode true;
-          set ftp:ssl-force true;
-          set ftp:ssl-protect-data true;
-          set ssl:verify-certificate no;
-          set net:timeout 20;
-          set net:max-retries 2;
-          open -u '${{ secrets.FTP_USERNAME }}','${{ secrets.FTP_PASSWORD }}' ${{ secrets.FTP_SERVER }};
-          ls;
-          quit;
-          "
+      - name: Deploy to GoDaddy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: public_html/
+          protocol: ftps
+
 
